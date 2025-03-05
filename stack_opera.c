@@ -12,7 +12,16 @@
 
 #include "push_swap.h"
 
-void	swap_stack(t_stack **stack)
+void	print_opera(char *str)
+{
+	while (*str)
+	{
+		write(1, str, 1);
+		str++;
+	}
+}
+
+void	swap_stack(t_stack **stack, char name)
 {
 	t_stack	*yan;
 	t_stack	*sin;
@@ -24,11 +33,15 @@ void	swap_stack(t_stack **stack)
 	yan->next = sin->next;
 	sin->next = yan;
 	*stack = sin;
+	print_opera("s");
+	write(1, &name, 1);
+	write(1, "\n", 1);
 }
 
-void	push_stack(t_stack **stack2, t_stack **stack1)
+void	push_stack(t_stack **stack2, t_stack **stack1, char name1)
 {
 	t_stack	*tmp;
+	char	name2;
 
 	if (!stack1 || !*stack1)
 		return ;
@@ -36,9 +49,16 @@ void	push_stack(t_stack **stack2, t_stack **stack1)
 	*stack1 = (*stack1)->next;
 	tmp->next = *stack2;
 	*stack2 = tmp;
+	if (name1 == 'a')
+		name2 = 'b';
+	else
+		name2 = 'a';
+	print_opera("p");
+	write(1, &name2, 1);
+	write(1, "\n", 1);
 }
 
-void	rotate_stack(t_stack **stack)
+void	rotate_stack(t_stack **stack, char name)
 {
 	t_stack	*izwar;
 	t_stack	*igra;
@@ -52,9 +72,12 @@ void	rotate_stack(t_stack **stack)
 	while (igra->next)
 		igra = igra->next;
 	igra->next = izwar;
+	print_opera("r");
+	write(1, &name, 1);
+	write(1, "\n", 1);
 }
 
-void	rev_rotate(t_stack **stack)
+void	rev_rotate(t_stack **stack, char name)
 {
 	t_stack	*amgaro;
 	t_stack	*amzwaro;
@@ -68,4 +91,7 @@ void	rev_rotate(t_stack **stack)
 	amzwaro->next = NULL;
 	amgaro->next = *stack;
 	*stack = amgaro;
+	print_opera("rr");
+	write(1, &name, 1);
+	write(1, "\n", 1);
 }

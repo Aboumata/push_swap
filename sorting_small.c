@@ -15,7 +15,7 @@
 void	sort_sin(t_stack **stack)
 {
 	if ((*stack)->val > (*stack)->next->val)
-		swap_stack(stack);
+		swap_stack(stack, 'a');
 }
 
 void	sort_krad(t_stack **stack)
@@ -28,21 +28,21 @@ void	sort_krad(t_stack **stack)
 	sin = (*stack)->next->val;
 	krad = (*stack)->next->next->val;
 	if (yan > sin && sin < krad && krad > yan)
-		swap_stack(stack);
+		swap_stack(stack, 'a');
 	else if (yan > sin && sin > krad)
 	{
-		swap_stack(stack);
-		rev_rotate(stack);
+		swap_stack(stack, 'a');
+		rev_rotate(stack, 'a');
 	}
 	else if (yan > sin && sin < krad && yan > krad)
-		rotate_stack(stack);
+		rotate_stack(stack, 'a');
 	else if (yan < sin && sin > krad && yan < krad)
 	{
-		swap_stack(stack);
-		rotate_stack(stack);
+		swap_stack(stack, 'a');
+		rotate_stack(stack, 'a');
 	}
 	else if (yan < sin && sin > krad && yan > krad)
-		rev_rotate(stack);
+		rev_rotate(stack, 'a');
 }
 
 void	sort_koz_smous(t_stack **stack_a, t_stack **stack_b)
@@ -55,19 +55,19 @@ void	sort_koz_smous(t_stack **stack_a, t_stack **stack_b)
 		while (*stack_a != smallest)
 		{
 			if (index_val(*stack_a, smallest->val) <= stack_len(*stack_a) / 2)
-				rotate_stack(stack_a);
+				rotate_stack(stack_a, 'a');
 			else
-				rev_rotate(stack_a);
+				rev_rotate(stack_a, 'a');
 		}
-		push_stack(stack_b, stack_a);
+		push_stack(stack_b, stack_a, 'a');
 	}
 	sort_krad(stack_a);
 	while (*stack_b)
 	{
-		push_stack(stack_a, stack_b);
+		push_stack(stack_a, stack_b, 'b');
 		if ((*stack_a)->next && (*stack_a)->val > (*stack_a)->next->val)
-			rotate_stack(stack_a);
+			rotate_stack(stack_a, 'a');
 	}
 	if (!is_sorted(*stack_a))
-		rotate_stack(stack_a);
+		rotate_stack(stack_a, 'a');
 }

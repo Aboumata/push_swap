@@ -14,9 +14,9 @@
 # define PUSH_SWAP_H
 
 # include <limits.h>
-# include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 typedef struct s_stack
 {
@@ -30,10 +30,11 @@ int					ps_atoi(const char *str, int *valid);
 int					check_duplicate(t_stack *stack, int val);
 int					count_strings(char **strings);
 char				**split_args(int argc, char **argv, int *new_argc);
-void				swap_stack(t_stack **stack);
-void				push_stack(t_stack **stack2, t_stack **stack1);
-void				rotate_stack(t_stack **stack);
-void				rev_rotate(t_stack **stack);
+void				print_opera(char *str);
+void				swap_stack(t_stack **stack, char name);
+void				push_stack(t_stack **stack2, t_stack **stack1, char name1);
+void				rotate_stack(t_stack **stack, char name);
+void				rev_rotate(t_stack **stack, char name);
 void				free_stack(t_stack **stack);
 void				free_args(char **args);
 void				free_error(t_stack **stack, char **args, int splitted);
@@ -49,9 +50,8 @@ void				sort_sin(t_stack **stack);
 void				sort_krad(t_stack **stack);
 t_stack				*search_smallest(t_stack *stack);
 void				sort_koz_smous(t_stack **stack_a, t_stack **stack_b);
-void				index_num(t_stack *stack);
-int					max_bits(t_stack *stack);
-void				push_bits(t_stack **stack_a, t_stack **stack_b, int bit);
-void				radix_algo(t_stack **stack_a, t_stack **stack_b);
+void				radix_sort(t_stack **a, t_stack **b);
+void				quicksort(int arr[], int low, int high);
+int					binary_search(int *arr, int len, int target);
 
 #endif

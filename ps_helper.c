@@ -74,14 +74,15 @@ void	stack_add_back(t_stack **stack, int value)
 	if (!new_node)
 		return ;
 	new_node->val = value;
+	new_node->index = -1;
 	new_node->next = NULL;
-	if (*stack == NULL)
-	{
+	if (!*stack)
 		*stack = new_node;
-		return ;
+	else
+	{
+		temp = *stack;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new_node;
 	}
-	temp = *stack;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_node;
 }
