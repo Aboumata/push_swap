@@ -16,6 +16,8 @@ int	is_number(const char *str)
 {
 	int	i;
 
+	if (!str || *str == '\0')
+		return (0);
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
