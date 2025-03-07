@@ -12,81 +12,125 @@
 
 #include "push_swap.h"
 
-static void	assign_indexes(t_stack *stack, int len)
+static void print_stack(t_stack *stack, char *name)
 {
-	int		*values;
+	printf("%s: ", name);
+	while (stack)
+	{
+		printf("%d ", stack->val);
+		stack = stack->next;
+	}
+	printf("\n");
+}
+
+#include <stdlib.h>
+
+void	assign_indexes(t_stack *stack)
+{
 	t_stack	*current;
+	int		*array;
+	int		size;
 	int		i;
+	int		j;
+	int		temp;
 
-	values = (int *)malloc(len * sizeof(int));
+	size = 0;
+	current = stack;
+	while (current)
+	{
+		size++;
+		current = current->next;
+	}
+	array = (int *)malloc(size * sizeof(int));
+	if (!array)
+		return ;
 	current = stack;
 	i = 0;
 	while (current)
 	{
-		values[i++] = current->val;
+		array[i] = current->val;
+		i++;
 		current = current->next;
 	}
-	quicksort(values, 0, len - 1);
-	current = stack;
-	while (current)
-	{
-		current->index = binary_search(values, len, current->val);
-		current = current->next;
-	}
-	free(values);
-}
-
-static int	get_max_bits(int size)
-{
-	int	bits;
-
-	bits = 0;
-	while ((size - 1) >> bits)
-		bits++;
-	return (bits);
-}
-
-static void	process_bit(t_stack **src, t_stack **dst, int bit, char stack_name)
-{
-	int	size;
-	int	i;
-
-	size = stack_len(*src);
 	i = 0;
-	while (i < size)
+	while (i < size - 1)
 	{
-		if ((((*src)->index >> bit) & 1) == 0)
+		j = 0;
+		while (j < size - i - 1)
 		{
-			if (stack_name == 'a')
-				push_stack(dst, src, 'b');
-			else
-				push_stack(dst, src, 'a');
+			if (array[j] > array[j + 1])
+			{
+				temp = array[j];
+				array[j] = array[j + 1];
+				array[j + 1] = temp;
+			}
+			j++;
 		}
-		else
-			rev_rotate(src, stack_name);
 		i++;
 	}
+	current = stack;
+	while (current)
+	{
+		i = 0;
+		while (i < size)
+		{
+			if (current->val == array[i])
+			{
+				current->index = i;
+				break ;
+			}
+			i++;
+		}
+		current = current->next;
+	}
+
+	free(array);
 }
 
-void	radix_sort(t_stack **a, t_stack **b)
+static void process_bit(t_stack **src, t_stack **dst, int bit, char stack_name)
 {
-	int	max_bits;
-	int	bit;
+	int initial_size = stack_len(*src);
+	int processed = 0;
 
-	max_bits = get_max_bits(stack_len(*a));
+	while (processed < initial_size)
+	{
+		printf("Processing bit %d: %d\n", bit, (*src)->index);
+		if ((((*src)->index >> bit) & 1) == 0)
+		{
+			printf("Pushing from %c to %c: %d\n", stack_name, stack_name == 'a' ? 'b' : 'a', (*src)->val);
+			push_stack(dst, src, stack_name == 'a' ? 'b' : 'a');
+		}
+		else
+		{
+			printf("Rotating %c: %d\n", stack_name, (*src)->val);
+			rotate_stack(src, stack_name);
+		}
+		processed++;
+	}
+	print_stack(*src, stack_name == 'a' ? "Stack A" : "Stack B");
+	print_stack(*dst, stack_name == 'a' ? "Stack B" : "Stack A");
+}
+
+void radix_sort(t_stack **a, t_stack **b)
+{
+	int max_bits = 0;
+	int bit;
+	int size;
+
+	assign_indexes(*a);
+	size = stack_len(*a);
+	while ((size - 1) >> max_bits)
+		max_bits++;
+	print_stack(*a, "Stack A");
+
 	bit = 0;
-	assign_indexes(*a, stack_len(*a));
 	while (bit < max_bits)
 	{
-		if (bit % 2 == 0)
-			process_bit(a, b, bit, 'a');
-		else
-			process_bit(b, a, bit, 'b');
-		bit++;
-	}
-	if (max_bits % 2 == 0)
-	{
+		printf("Processing bit level: %d\n", bit);
+		process_bit(a, b, bit, 'a');
 		while (*b)
 			push_stack(a, b, 'a');
+		bit++;
 	}
+	print_stack(*a, "Final Stack A");
 }

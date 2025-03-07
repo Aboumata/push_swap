@@ -14,7 +14,6 @@
 
 void	print_error_and_exit(void)
 {
-	write(2, "Error\n", 6);
 	exit(1);
 }
 
@@ -30,52 +29,55 @@ static void	sort_decision(t_stack **a, t_stack **b, int size)
 		radix_sort(a, b);
 }
 
-static int	process_args(char **args, t_stack **a, int is_split)
+static void	validate_and_add(char *arg, t_stack **a)
 {
-	int		i;
-	int		num;
-	int		valid;
+	int	num;
+	int	valid;
 
-	i = -1;
-	while (args[++i])
+	valid = 1;
+	num = ps_atoi(arg, &valid);
+	if (!valid || !is_number(arg) || !check_duplicate(*a, num))
 	{
-		valid = 1;
-		num = ps_atoi(args[i], &valid);
-		if (!valid || !is_number(args[i]) || !check_duplicate(*a, num))
-		{
-			free_error(a, args, is_split);
-			if (is_split)
-				free(args);
-			print_error_and_exit();
-		}
-		stack_add_back(a, num);
+		free_stack(a);
+		print_error_and_exit();
 	}
-	return (1);
+	stack_add_back(a, num);
+}
+
+static t_stack	*parse_arguments(int argc, char **argv, int *new_argc)
+{
+	t_stack	*a;
+	char	**args;
+	int		i;
+	int		is_split;
+
+	a = NULL;
+	args = split_args(argc, argv, new_argc);
+	is_split = (argc == 2);
+	if (!args)
+		print_error_and_exit();
+	i = 0;
+	while (args[i])
+		validate_and_add(args[i++], &a);
+	if (is_split)
+	{
+		free_args(args);
+		free(args);
+	}
+	return (a);
 }
 
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
 	t_stack	*b;
-	char	**args;
 	int		new_argc;
-	int		is_split;
 
-	a = NULL;
-	b = NULL;
 	if (argc < 2)
 		return (0);
-	args = split_args(argc, argv, &new_argc);
-	is_split = (argc == 2);
-	if (!args || !process_args(args, &a, is_split))
-		print_error_and_exit();
-	if (is_split)
-	{
-		free_args(args);
-		free(args);
-	}
+	a = parse_arguments(argc, argv, &new_argc);
+	b = NULL;
 	if (!is_sorted(a))
 		sort_decision(&a, &b, new_argc);
 	free_stack(&a);
-	return (0);
 }
