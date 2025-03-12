@@ -51,7 +51,5 @@ void				sort_krad(t_stack **stack);
 t_stack				*search_smallest(t_stack *stack);
 void				sort_koz_smous(t_stack **stack_a, t_stack **stack_b);
 void				radix_sort(t_stack **a, t_stack **b);
-void				quicksort(int arr[], int low, int high);
-int					binary_search(int *arr, int len, int target);
 
 #endif
