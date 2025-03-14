@@ -20,13 +20,13 @@ void	print_error_and_exit(void)
 static void	sort_decision(t_stack **a, t_stack **b, int size)
 {
 	if (size == 2)
-		sort_sin(a);
+		sort_2(a);
 	else if (size == 3)
-		sort_krad(a);
+		sort_3(a);
 	else if (size <= 5)
-		sort_koz_smous(a, b);
+		sort_4_or_5(a, b);
 	else
-		radix_sort(a, b);
+		sort_big(a, b);
 }
 
 static void	validate_and_add(char *arg, t_stack **a)
@@ -80,4 +80,5 @@ int	main(int argc, char **argv)
 	if (!is_sorted(a))
 		sort_decision(&a, &b, new_argc);
 	free_stack(&a);
+	free_stack(&b);
 }

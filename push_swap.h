@@ -46,10 +46,9 @@ size_t				ft_strlen(const char *s);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char				*ft_substr(const char *src, size_t start, size_t len);
 char				**ft_split(char const *s, char c);
-void				sort_sin(t_stack **stack);
-void				sort_krad(t_stack **stack);
+void	            sort_2(t_stack **stack);
+void	            sort_3(t_stack **stack);
+void	            sort_4_or_5(t_stack **stack_a, t_stack **stack_b);
 t_stack				*search_smallest(t_stack *stack);
-void				sort_koz_smous(t_stack **stack_a, t_stack **stack_b);
-void				radix_sort(t_stack **a, t_stack **b);
-
+void				sort_big(t_stack **a, t_stack **b);
 #endif
