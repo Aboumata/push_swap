@@ -56,7 +56,9 @@ t_stack	*search_smallest(t_stack *stack)
 
 int	is_sorted(t_stack *stack)
 {
-	while (stack && stack->next)
+	if (!stack)
+		return (0);
+	while (stack->next)
 	{
 		if (stack->val > stack->next->val)
 			return (0);

@@ -65,3 +65,13 @@ void	sort_4_or_5(t_stack **stack_a, t_stack **stack_b)
 	while (*stack_b)
 		push_stack(stack_a, stack_b, 'b');
 }
+
+void sort_small(t_stack **a, t_stack **b, int size)
+{
+	if (size == 2)
+		swap_stack(a, 'a');
+	else if (size == 3)
+		sort_3(a);
+	else if (size <= 5)
+		sort_4_or_5(a, b);
+}

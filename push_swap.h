@@ -51,4 +51,5 @@ void	            sort_3(t_stack **stack);
 void	            sort_4_or_5(t_stack **stack_a, t_stack **stack_b);
 t_stack				*search_smallest(t_stack *stack);
 void				sort_big(t_stack **a, t_stack **b);
+void				sort_small(t_stack **a, t_stack **b, int size);
 #endif

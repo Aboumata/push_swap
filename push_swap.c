@@ -14,20 +14,18 @@
 
 void	print_error_and_exit(void)
 {
+	write(1, "error", 5);
 	exit(1);
 }
 
-static void	sort_decision(t_stack **a, t_stack **b, int size)
+static void sort_decision(t_stack **a, t_stack **b, int size)
 {
-	if (size == 2)
-		sort_2(a);
-	else if (size == 3)
-		sort_3(a);
-	else if (size <= 5)
-		sort_4_or_5(a, b);
+	if (size <= 5)
+		sort_small(a, b, size);
 	else
 		sort_big(a, b);
 }
+
 
 static void	validate_and_add(char *arg, t_stack **a)
 {
