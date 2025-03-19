@@ -27,17 +27,30 @@ int	find_future_rotate(t_stack *a, int threshold)
 	return (pos <= len / 2) ? pos : len - pos;
 }
 
+int	find_position(t_stack *stack, int target_index)
+{
+	int	pos = 0;
+
+	while (stack)
+	{
+		if (stack->index == target_index)
+			return (pos);
+		pos++;
+		stack = stack->next;
+	}
+	return (-1);
+}
+
 int	rotation_direction(t_stack *b, int max_index)
 {
-	int	pos;
-	int	len;
+	int	pos = 0;
+	int	len = stack_len(b);
+	t_stack	*current = b;
 
-	pos = 0;
-	len = stack_len(b);
-	while (b && b->index != max_index)
+	while (current && current->index != max_index)
 	{
 		pos++;
-		b = b->next;
+		current = current->next;
 	}
 	return (pos <= len / 2);
 }
@@ -71,20 +84,6 @@ int	find_rotations_to_max(t_stack *stack, int max_index)
 		stack = stack->next;
 	}
 	return (position <= len / 2) ? position : len - position;
-}
-
-int	find_position(t_stack *stack, int target_index)
-{
-	int	pos = 0;
-
-	while (stack)
-	{
-		if (stack->index == target_index)
-			return (pos);
-		pos++;
-		stack = stack->next;
-	}
-	return (-1);
 }
 
 void	swap_values(int *a, int *b)
@@ -145,22 +144,46 @@ static void	assign_indexes(t_stack *stack, int *sorted, int size)
 	}
 }
 
+int	find_next_in_range(t_stack *a, int current_max, int chunk_size)
+{
+	int	pos = 0;
+	int	best_pos = -1;
+	int	min_index = (current_max > chunk_size) ?
+		current_max - chunk_size + 1 : 0;
+	int	len = stack_len(a);
+
+	while (a && pos < len * 2)
+	{
+		if (a->index >= min_index && a->index <= current_max)
+		{
+			best_pos = pos % len;
+			break;
+		}
+		pos++;
+		a = a->next;
+	}
+	if (best_pos == -1) return (0);
+	return (best_pos <= len / 2) ? best_pos : len - best_pos;
+}
+
 static void	optimized_push_chunks(t_stack **a, t_stack **b, int size)
 {
-	int	chunk_size = (size <= 100) ? 17 : 33;
+	int	chunk_size = (size <= 100) ? 20 : 45;
 	int	next_target = chunk_size;
-	int	remaining = size;
+	int	pushed = 0;
 	int	rotate_count = 0;
 
-	while (remaining > 0)
+	while (pushed < size)
 	{
 		if ((*a)->index <= next_target)
 		{
 			push_stack(b, a, 'a');
-			if ((*b)->index < (next_target - (chunk_size / 3)))
+			if ((*b)->index < (next_target - (chunk_size / 2)) && stack_len(*b) > 1)
 				rotate_stack(b, 'b');
-			remaining--;
-			next_target += (remaining > size * 0.9) ? 0 : 1;
+			pushed++;
+			next_target = (pushed % chunk_size == 0) ?
+				next_target + chunk_size : next_target + 1;
+			if (next_target >= size) next_target = size - 1;
 			rotate_count = 0;
 		}
 		else
@@ -190,7 +213,7 @@ void		sort_big(t_stack **a, t_stack **b)
 	{
 		max_index = find_max_index(*b);
 		int	rot_dir = rotation_direction(*b, max_index);
-		int	rotations = (rot_dir) ?
+		int	rotations = rot_dir ?
 			find_position(*b, max_index) :
 			stack_len(*b) - find_position(*b, max_index);
 
