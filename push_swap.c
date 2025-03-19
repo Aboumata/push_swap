@@ -15,6 +15,7 @@
 void	print_error_and_exit(void)
 {
 	write(1, "error", 5);
+	write(1, "\n", 1);
 	exit(1);
 }
 

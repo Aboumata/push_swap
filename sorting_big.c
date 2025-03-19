@@ -73,6 +73,20 @@ int	find_rotations_to_max(t_stack *stack, int max_index)
 	return (position <= len / 2) ? position : len - position;
 }
 
+int	find_position(t_stack *stack, int target_index)
+{
+	int	pos = 0;
+
+	while (stack)
+	{
+		if (stack->index == target_index)
+			return (pos);
+		pos++;
+		stack = stack->next;
+	}
+	return (-1);
+}
+
 void	swap_values(int *a, int *b)
 {
 	int	tmp;
@@ -131,35 +145,56 @@ static void	assign_indexes(t_stack *stack, int *sorted, int size)
 	}
 }
 
+static void	optimized_push_chunks(t_stack **a, t_stack **b, int size)
+{
+	int	chunk_size = (size <= 100) ? 17 : 33;
+	int	next_target = chunk_size;
+	int	remaining = size;
+	int	rotate_count = 0;
+
+	while (remaining > 0)
+	{
+		if ((*a)->index <= next_target)
+		{
+			push_stack(b, a, 'a');
+			if ((*b)->index < (next_target - (chunk_size / 3)))
+				rotate_stack(b, 'b');
+			remaining--;
+			next_target += (remaining > size * 0.9) ? 0 : 1;
+			rotate_count = 0;
+		}
+		else
+		{
+			if (rotate_count++ > size/2)
+			{
+				rev_rotate(a, 'a');
+				rotate_count = 0;
+			}
+			else
+				rotate_stack(a, 'a');
+		}
+	}
+}
+
 void		sort_big(t_stack **a, t_stack **b)
 {
 	int	size = stack_len(*a);
 	int	*sorted = create_sorted_array(*a, size);
-	int	chunk_size = (size <= 100) ? 20 : 45;
-	int	i = 0;
+	int	max_index;
 
 	assign_indexes(*a, sorted, size);
 	free(sorted);
-	while (i < size)
-	{
-		if ((*a)->index <= i + chunk_size)
-		{
-			push_stack(b, a, 'a');
-			if ((*b)->index < i + (chunk_size / 2) && stack_len(*b) > 1)
-				rotate_stack(b, 'b');
-			i++;
-		}
-		else if (find_future_rotate(*a, i + chunk_size) <= stack_len(*a) / 2)
-			rotate_stack(a, 'a');
-		else
-			rev_rotate(a, 'a');
-	}
+	optimized_push_chunks(a, b, size);
+
 	while (*b)
 	{
-		int	max_index = find_max_index(*b);
+		max_index = find_max_index(*b);
 		int	rot_dir = rotation_direction(*b, max_index);
+		int	rotations = (rot_dir) ?
+			find_position(*b, max_index) :
+			stack_len(*b) - find_position(*b, max_index);
 
-		while ((*b)->index != max_index)
+		while (rotations-- > 0)
 		{
 			if (rot_dir)
 				rotate_stack(b, 'b');
