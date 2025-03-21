@@ -23,8 +23,10 @@ static void sort_decision(t_stack **a, t_stack **b, int size)
 {
 	if (size <= 5)
 		sort_small(a, b, size);
+	else if (size <= 100)
+		sort_100(a, b);
 	else
-		sort_big(a, b);
+		sort_500(a, b);
 }
 
 

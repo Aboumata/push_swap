@@ -50,6 +50,16 @@ void	            sort_2(t_stack **stack);
 void	            sort_3(t_stack **stack);
 void	            sort_4_or_5(t_stack **stack_a, t_stack **stack_b);
 t_stack				*search_smallest(t_stack *stack);
-void				sort_big(t_stack **a, t_stack **b);
 void				sort_small(t_stack **a, t_stack **b, int size);
+void				sort_100(t_stack **a, t_stack **b);
+void				sort_500(t_stack **a, t_stack **b);
+int					find_future_rotate(t_stack *a, int threshold);
+int					rotation_direction(t_stack *b, int max_index);
+int					find_max_index(t_stack *stack);
+int					find_rotations_to_max(t_stack *stack, int max_index);
+int					find_position(t_stack *stack, int target_index);
+void				swap_values(int *a, int *b);
+int					*create_sorted_array(t_stack *stack, int size);
+void				assign_indexes(t_stack *stack, int *sorted, int size);
+
 #endif
