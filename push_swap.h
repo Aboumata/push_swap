@@ -73,5 +73,6 @@ int					find_position_below_threshold(t_stack *a, int threshold);
 int					find_closest_in_range(t_stack *a, int min_val, int max_val);
 void				insert_smartly(t_stack **b);
 int					find_in_range(t_stack *a, int min_val, int max_val);
+int find_median(t_stack *b);
 
 #endif

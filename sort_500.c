@@ -1,13 +1,12 @@
 #include "push_swap.h"
 
-#define CHUNK_SIZE 24  // Optimal for 500 elements
+#define CHUNK_SIZE 30
 
-static void smart_rotate(t_stack **a, int threshold) {
+static void smart_rotate_a(t_stack **a, int threshold) {
     int pos = 0;
     t_stack *tmp = *a;
     int len = stack_len(*a);
 
-    // Find first element <= threshold
     while (tmp && tmp->index > threshold) {
         pos++;
         tmp = tmp->next;
@@ -26,10 +25,10 @@ static void push_chunks(t_stack **a, t_stack **b, int size) {
             push_stack(b, a, 'a');
             if (stack_len(*b) > 1 && (*b)->index < (*b)->next->index)
                 rotate_stack(b, 'b');
-            if (++pushed % CHUNK_SIZE == 0)
-                current_max = (pushed + CHUNK_SIZE < size) ? pushed + CHUNK_SIZE : size - 1;
+            pushed++;
+            current_max = (pushed + CHUNK_SIZE < size) ? pushed + CHUNK_SIZE : size - 1;
         } else {
-            smart_rotate(a, current_max);
+            smart_rotate_a(a, current_max);
         }
     }
 }

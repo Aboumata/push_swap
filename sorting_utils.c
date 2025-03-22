@@ -114,20 +114,14 @@ int	rotation_direction(t_stack *b, int max_index)
     return (pos <= len / 2);
 }
 
-int	find_max_index(t_stack *stack)
-{
-    int	max;
-
-    if (!stack)
-        return (-1);
-    max = stack->index;
-    while (stack)
-    {
+int find_max_index(t_stack *stack) {
+    int max = INT_MIN;
+    while (stack) {
         if (stack->index > max)
             max = stack->index;
         stack = stack->next;
     }
-    return (max);
+    return max;
 }
 
 int find_position_below_threshold(t_stack *a, int threshold)
