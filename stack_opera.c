@@ -21,6 +21,15 @@ void	print_opera(char *str)
 	}
 }
 
+t_stack *stack_last(t_stack *stack)
+{
+	if (!stack)
+		return (NULL);
+	while (stack->next)
+		stack = stack->next;
+	return (stack);
+}
+
 void	swap_stack(t_stack **stack, char name)
 {
 	t_stack	*yan;

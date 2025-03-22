@@ -1,73 +1,57 @@
 #include "push_swap.h"
 
-static void	push_chunks_500(t_stack **a, t_stack **b, int size)
-{
-    int	chunk_size = 33;
-    int	next_target = chunk_size;
-    int	remaining = size;
-    int	rotate_count = 0;
+#define CHUNK_SIZE 24  // Optimal for 500 elements
 
-    while (remaining > 0)
-    {
-        if ((*a)->index < next_target)
-        {
+static void smart_rotate(t_stack **a, int threshold) {
+    int pos = 0;
+    t_stack *tmp = *a;
+    int len = stack_len(*a);
+
+    // Find first element <= threshold
+    while (tmp && tmp->index > threshold) {
+        pos++;
+        tmp = tmp->next;
+    }
+
+    if (pos <= len/2) while (pos--) rotate_stack(a, 'a');
+    else while (len - pos++ > 0) rev_rotate(a, 'a');
+}
+
+static void push_chunks(t_stack **a, t_stack **b, int size) {
+    int current_max = CHUNK_SIZE - 1;
+    int pushed = 0;
+
+    while (pushed < size) {
+        if ((*a)->index <= current_max) {
             push_stack(b, a, 'a');
-            if ((*b)->index < (next_target - (chunk_size / 3)))
+            if (stack_len(*b) > 1 && (*b)->index < (*b)->next->index)
                 rotate_stack(b, 'b');
-            remaining--;
-            next_target += (remaining > size * 0.9) ? 0 : 1;
-            rotate_count = 0;
-        }
-        else
-        {
-            if (rotate_count++ > size / 2)
-            {
-                rev_rotate(a, 'a');
-                rotate_count = 0;
-            }
-            else
-                rotate_stack(a, 'a');
+            if (++pushed % CHUNK_SIZE == 0)
+                current_max = (pushed + CHUNK_SIZE < size) ? pushed + CHUNK_SIZE : size - 1;
+        } else {
+            smart_rotate(a, current_max);
         }
     }
 }
 
-static void	move_max_to_top_500(t_stack **b)
-{
-    int	max_index = find_max_index(*b);
-    int	rot_dir, rotations;
+static void optimized_pushback(t_stack **a, t_stack **b) {
+    while (*b) {
+        int max_pos = find_max_position(*b);
+        int len = stack_len(*b);
 
-    if (max_index == -1)
-        return;
+        if (max_pos <= len/2) while (max_pos--) rotate_stack(b, 'b');
+        else while (len - max_pos++ > 0) rev_rotate(b, 'b');
 
-    rotations = find_position(*b, max_index);
-    if (rotations == -1)
-        return;
-
-    rot_dir = rotation_direction(*b, max_index);
-    while (rotations-- > 0)
-    {
-        if (!(*b))
-            break;
-        if (rot_dir)
-            rotate_stack(b, 'b');
-        else
-            rev_rotate(b, 'b');
-    }
-}
-
-void	sort_500(t_stack **a, t_stack **b)
-{
-    int	size = stack_len(*a);
-    int	*sorted = create_sorted_array(*a, size);
-
-    assign_indexes(*a, sorted, size);
-    free(sorted);
-
-    push_chunks_500(a, b, size);
-
-    while (*b)
-    {
-        move_max_to_top_500(b);
         push_stack(a, b, 'b');
     }
+}
+
+void sort_500(t_stack **a, t_stack **b) {
+    int size = stack_len(*a);
+    int *sorted = create_sorted_array(*a, size);
+
+    assign_indexes(*a, sorted, size);
+    push_chunks(a, b, size);
+    optimized_pushback(a, b);
+    free(sorted);
 }

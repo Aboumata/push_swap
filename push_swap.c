@@ -25,8 +25,10 @@ static void sort_decision(t_stack **a, t_stack **b, int size)
 		sort_small(a, b, size);
 	else if (size <= 100)
 		sort_100(a, b);
-	else
+	else if (size <= 500)
 		sort_500(a, b);
+	else
+		printf("Error: Unsupported stack size %d\n", size);
 }
 
 
