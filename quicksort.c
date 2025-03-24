@@ -1,5 +1,11 @@
 #include "push_swap.h"
 
+static void swap_values(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
 static int	partition(int *arr, int low, int high)
 {
@@ -16,12 +22,12 @@ static int	partition(int *arr, int low, int high)
     }
 }
 
-void		quick_sort(int *arr, int low, int high)
+void quicksort(int *arr, int low, int high)
 {
     if (low < high)
     {
         int pi = partition(arr, low, high);
-        quick_sort(arr, low, pi);
-        quick_sort(arr, pi + 1, high);
+        quicksort(arr, low, pi - 1);
+        quicksort(arr, pi + 1, high);
     }
 }

@@ -12,17 +12,13 @@
 
 #include "push_swap.h"
 
-int	stack_len(t_stack *stack)
-{
-	int	size;
-
-	size = 0;
-	while (stack)
-	{
+int stack_len(t_stack *stack) {
+	int count = 0;
+	while (stack) {
+		count++;
 		stack = stack->next;
-		size++;
 	}
-	return (size);
+	return count;
 }
 
 int	index_val(t_stack *stack, int val)

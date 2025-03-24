@@ -21,15 +21,6 @@ void	print_opera(char *str)
 	}
 }
 
-t_stack *stack_last(t_stack *stack)
-{
-	if (!stack)
-		return (NULL);
-	while (stack->next)
-		stack = stack->next;
-	return (stack);
-}
-
 void	swap_stack(t_stack **stack, char name)
 {
 	t_stack	*yan;
@@ -47,25 +38,20 @@ void	swap_stack(t_stack **stack, char name)
 	write(1, "\n", 1);
 }
 
-void	push_stack(t_stack **stack2, t_stack **stack1, char name1)
+void	push_stack(t_stack **dest, t_stack **src, char from)
 {
 	t_stack	*tmp;
-	char	name2;
 
-	if (!stack1 || !*stack1)
+	if (!src || !*src)
 		return ;
-	tmp = *stack1;
-	*stack1 = (*stack1)->next;
-	tmp->next = *stack2;
-	*stack2 = tmp;
-	if (name1 == 'a')
-		name2 = 'b';
-	else
-		name2 = 'a';
+	tmp = *src;
+	*src = (*src)->next;
+	tmp->next = *dest;
+	*dest = tmp;
 	print_opera("p");
-	write(1, &name2, 1);
-	write(1, "\n", 1);
+	write(1, (from == 'a') ? "b\n" : "a\n", 2);
 }
+
 
 void	rotate_stack(t_stack **stack, char name)
 {

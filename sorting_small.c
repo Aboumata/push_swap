@@ -20,38 +20,36 @@ void	sort_2(t_stack **stack)
 
 void	sort_3(t_stack **stack)
 {
-	int	yan;
-	int	sin;
-	int	krad;
+	int	a = (*stack)->val;
+	int	b = (*stack)->next->val;
+	int	c = (*stack)->next->next->val;
 
-	yan = (*stack)->val;
-	sin = (*stack)->next->val;
-	krad = (*stack)->next->next->val;
-	if (yan > sin && sin < krad && krad > yan)
+	if (a > b && b < c && c > a) // Case: 3 1 2 → Swap
 		swap_stack(stack, 'a');
-	else if (yan > sin && sin > krad)
+	else if (a > b && b > c) // Case: 3 2 1 → Swap & Reverse Rotate
 	{
 		swap_stack(stack, 'a');
 		rev_rotate(stack, 'a');
 	}
-	else if (yan > sin && sin < krad && yan > krad)
+	else if (a > b && b < c && a > c) // Case: 2 1 3 → Rotate
 		rotate_stack(stack, 'a');
-	else if (yan < sin && sin > krad && yan < krad)
+	else if (a < b && b > c && a < c) // Case: 1 3 2 → Swap & Rotate
 	{
 		swap_stack(stack, 'a');
 		rotate_stack(stack, 'a');
 	}
-	else if (yan < sin && sin > krad && yan > krad)
+	else if (a < b && b > c && a > c) // Case: 2 3 1 → Reverse Rotate
 		rev_rotate(stack, 'a');
 }
 
+
 void	sort_4_or_5(t_stack **stack_a, t_stack **stack_b)
 {
-	t_stack	*smallest;
+	int size = stack_len(*stack_a);
 
-	while (stack_len(*stack_a) > 3)
+	while (size-- > 3)
 	{
-		smallest = search_smallest(*stack_a);
+		t_stack *smallest = search_smallest(*stack_a);
 		while (*stack_a != smallest)
 		{
 			if (index_val(*stack_a, smallest->val) <= stack_len(*stack_a) / 2)
@@ -65,6 +63,7 @@ void	sort_4_or_5(t_stack **stack_a, t_stack **stack_b)
 	while (*stack_b)
 		push_stack(stack_a, stack_b, 'b');
 }
+
 
 void sort_small(t_stack **a, t_stack **b, int size)
 {
