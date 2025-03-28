@@ -2,7 +2,7 @@
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 echo ""
 echo "************************************* TESTING 2 ELEMENTS ***************************************"
@@ -27,25 +27,20 @@ timeout 5s ./push_swap 54 45 60 12 9 | ./checker_linux 54 45 60 12 9
 echo ""
 echo "************************************* TESTING EDGE CASES ***************************************"
 
-# Already Sorted
 echo -e "${GREEN}Testing already sorted list:${NC}"
 timeout 5s ./push_swap 1 2 3 4 5 | tee /tmp/ps_output.txt | wc -l
 timeout 5s ./push_swap 1 2 3 4 5 | ./checker_linux 1 2 3 4 5
 
-# Reverse Sorted
 echo -e "${GREEN}Testing reverse sorted list:${NC}"
 timeout 5s ./push_swap 5 4 3 2 1 | tee /tmp/ps_output.txt | wc -l
 timeout 5s ./push_swap 5 4 3 2 1 | ./checker_linux 5 4 3 2 1
 
-# Duplicates (should print error)
 echo -e "${RED}Testing with duplicates (should print error):${NC}"
 timeout 5s ./push_swap 1 2 3 3 4 5
 
-# Invalid input (should print error)
 echo -e "${RED}Testing with invalid input (letters, should print error):${NC}"
 timeout 5s ./push_swap 1 2 a 3 4
 
-# Large Numbers (should print error)
 echo -e "${RED}Testing with numbers out of int range (should print error):${NC}"
 timeout 5s ./push_swap 1 2 2147483648 3 4
 
