@@ -20,10 +20,13 @@ void	sort_2(t_stack **stack)
 
 void	sort_3(t_stack **stack)
 {
-	int	a = (*stack)->val;
-	int	b = (*stack)->next->val;
-	int	c = (*stack)->next->next->val;
+	int	a;
+	int	b;
+	int	c;
 
+	a = (*stack)->val;
+	b = (*stack)->next->val;
+	c = (*stack)->next->next->val;
 	if (a > b && b < c && c > a) // Case: 3 1 2 → Swap
 		swap_stack(stack, 'a');
 	else if (a > b && b > c) // Case: 3 2 1 → Swap & Reverse Rotate
@@ -42,14 +45,15 @@ void	sort_3(t_stack **stack)
 		rev_rotate(stack, 'a');
 }
 
-
 void	sort_4_or_5(t_stack **stack_a, t_stack **stack_b)
 {
-	int size = stack_len(*stack_a);
+	int		size;
+	t_stack	*smallest;
 
+	size = stack_len(*stack_a);
 	while (size-- > 3)
 	{
-		t_stack *smallest = search_smallest(*stack_a);
+		smallest = search_smallest(*stack_a);
 		while (*stack_a != smallest)
 		{
 			if (index_val(*stack_a, smallest->val) <= stack_len(*stack_a) / 2)
@@ -64,8 +68,7 @@ void	sort_4_or_5(t_stack **stack_a, t_stack **stack_b)
 		push_stack(stack_a, stack_b, 'b');
 }
 
-
-void sort_small(t_stack **a, t_stack **b, int size)
+void	sort_small(t_stack **a, t_stack **b, int size)
 {
 	if (size == 2)
 		swap_stack(a, 'a');

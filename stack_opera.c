@@ -52,7 +52,6 @@ void	push_stack(t_stack **dest, t_stack **src, char name)
 	write(1, (name == 'a') ? "b\n" : "a\n", 2);
 }
 
-
 void	rotate_stack(t_stack **stack, char name)
 {
 	t_stack	*izwar;

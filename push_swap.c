@@ -19,7 +19,7 @@ void	print_error_and_exit(void)
 	exit(1);
 }
 
-static void sort_decision(t_stack **a, t_stack **b, int size)
+static void	sort_decision(t_stack **a, t_stack **b, int size)
 {
 	if (size <= 5)
 		sort_small(a, b, size);
