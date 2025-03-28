@@ -1,8 +1,9 @@
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = free_memory.c parsing_opera.c push_swap.c sorting_small.c \
-       ps_helper.c stack_opera.c ft_substr.c ft_split.c sort_500_100.c quicksort.c\
+       ps_helper.c stack_opera.c ft_substr.c ft_split.c sort_500_100.c \
+       sorting_utils.c\
 
 OBJS = $(SRCS:.c=.o)
 

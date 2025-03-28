@@ -1,89 +1,95 @@
 #include "push_swap.h"
 
-void    check_end(int *start, int *end, int len)
+int find_value_position(t_stack *stack, int value)
 {
-    (*start)++;
-    (*end)++;
-    if (*end >= len)
-        *end = len - 1;
-}
-
-int get_max(t_stack *stack)
-{
-    int max_val = stack->val;
-    while (stack)
-    {
-        if (stack->val > max_val)
-            max_val = stack->val;
+    int pos = 0;
+    while (stack && stack->val != value) {
+        pos++;
         stack = stack->next;
     }
-    return max_val;
+    return pos;
 }
 
-int find_max_index(t_stack *stack, int max_val)
+static int	*create_sorted_array(t_stack *stack, int size)
 {
-    int index = 0;
-    while (stack)
+    int		*arr;
+    t_stack	*current;
+    int		i;
+
+    arr = malloc(sizeof(int) * size);
+    if (!arr)
+        return (NULL);
+    current = stack;
+    i = -1;
+    while (++i < size && current)
     {
-        if (stack->val == max_val)
-            return index;
-        stack = stack->next;
-        index++;
+        arr[i] = current->val;
+        current = current->next;
     }
-    return -1;
+    quicksort(arr, 0, size - 1);
+    return (arr);
 }
 
-void    sort_sa(t_stack **sa, t_stack **sb, int *tab, int len)
+static void	push_range(t_stack **a, t_stack **b, int *tab, int *range)
 {
-    int    start = 0;
-    int    end = (len > 5 && len <= 100) ? len / 6 : 35;
+    int	start;
+    int	end;
 
-    while (*sa)
+    start = range[0];
+    end = range[1];
+    while (*a)
     {
-        if ((*sa)->val >= tab[start] && (*sa)->val <= tab[end])
+        if ((*a)->val >= tab[start] && (*a)->val <= tab[end])
         {
-            push_stack(sb, sa, 'a');
-            check_end(&start, &end, len);
+            push_stack(b, a, 'a');
+            start++;
+            end = (end + 1 < range[2]) ? end + 1 : range[2] - 1;
         }
-        else if ((*sa)->val < tab[start])
+        else if ((*a)->val < tab[start])
         {
-            push_stack(sb, sa, 'a');
-            rotate_stack(sb, 'b');
-            check_end(&start, &end, len);
+            push_stack(b, a, 'a');
+            rotate_stack(b, 'b');
+            start++;
+            end = (end + 1 < range[2]) ? end + 1 : range[2] - 1;
         }
         else
-            rotate_stack(sa, 'a');
+            rotate_stack(a, 'a');
     }
 }
 
-void    sort_sb(t_stack **sa, t_stack **sb)
+static void	optimized_pushback(t_stack **a, t_stack **b, int size)
 {
-    int    max_val;
-    int    middle;
-    int    max_index;
+    int	max_val;
+    int	max_index;
 
-    while (*sb)
+    while (*b)
     {
-        max_val = get_max(*sb);
-        middle = stack_len(*sb) / 2;
-        max_index = find_max_index(*sb, max_val);
-
-        if (max_index <= middle)
-        {
-            while ((*sb)->val != max_val)
-                rotate_stack(sb, 'b');
-        }
+        max_val = find_max_value(*b);
+        max_index = find_value_position(*b, max_val);
+        if (max_index <= stack_len(*b) / 2)
+            while ((*b)->val != max_val)
+                rotate_stack(b, 'b');
         else
-        {
-            while ((*sb)->val != max_val)
-                rev_rotate(sb, 'b');
-        }
-        push_stack(sa, sb, 'b');
+            while ((*b)->val != max_val)
+                rev_rotate(b, 'b');
+        push_stack(a, b, 'b');
+        if (stack_len(*a) == size)
+            break ;
     }
 }
 
-void    sort(t_stack **sa, t_stack **sb, int *tab, int len)
+void	sort(t_stack **a, t_stack **b, int size)
 {
-    sort_sa(sa, sb, tab, len);
-    sort_sb(sa, sb);
+    int	*tab;
+    int	range[3];
+
+    tab = create_sorted_array(*a, size);
+    if (!tab)
+        return;
+    range[0] = 0;
+    range[1] = (size > 100) ? size / 11 : size / 5;
+    range[2] = size;
+    push_range(a, b, tab, range);
+    optimized_pushback(a, b, size);
+    free(tab);
 }

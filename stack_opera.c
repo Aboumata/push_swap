@@ -38,7 +38,7 @@ void	swap_stack(t_stack **stack, char name)
 	write(1, "\n", 1);
 }
 
-void	push_stack(t_stack **dest, t_stack **src, char from)
+void	push_stack(t_stack **dest, t_stack **src, char name)
 {
 	t_stack	*tmp;
 
@@ -49,7 +49,7 @@ void	push_stack(t_stack **dest, t_stack **src, char from)
 	tmp->next = *dest;
 	*dest = tmp;
 	print_opera("p");
-	write(1, (from == 'a') ? "b\n" : "a\n", 2);
+	write(1, (name == 'a') ? "b\n" : "a\n", 2);
 }
 
 

@@ -12,7 +12,8 @@
 
 #include "push_swap.h"
 
-int stack_len(t_stack *stack) {
+int stack_len(t_stack *stack)
+{
 	int count = 0;
 	while (stack) {
 		count++;
@@ -21,19 +22,16 @@ int stack_len(t_stack *stack) {
 	return count;
 }
 
-int	index_val(t_stack *stack, int val)
+int index_val(t_stack *stack, int val)
 {
-	int	index;
-
-	index = 0;
-	while (stack)
-	{
+	int index = 0;
+	while (stack) {
 		if (stack->val == val)
-			return (index);
+			return index;
 		index++;
 		stack = stack->next;
 	}
-	return (index);
+	return -1;
 }
 
 t_stack	*search_smallest(t_stack *stack)

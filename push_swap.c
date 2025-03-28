@@ -19,40 +19,12 @@ void	print_error_and_exit(void)
 	exit(1);
 }
 
-static int *stack_to_array(t_stack *a, int size)
-{
-	int *arr;
-	int i = 0;
-
-	arr = (int *)malloc(sizeof(int) * size);
-	if (!arr)
-		return (NULL);
-	while (a)
-	{
-		arr[i++] = a->val;
-		a = a->next;
-	}
-	quicksort(arr, 0, size - 1);
-	return (arr);
-}
-
 static void sort_decision(t_stack **a, t_stack **b, int size)
 {
-	int *array;
-
 	if (size <= 5)
 		sort_small(a, b, size);
-	else if (size <= 500)
-	{
-		array = stack_to_array(*a, size);
-		if (!array)
-		{
-			free_stack(a);
-			print_error_and_exit();
-		}
-		sort(a, b, array, size);
-		free(array);
-	}
+	else
+		sort(a, b, size);
 }
 
 static void	validate_and_add(char *arg, t_stack **a)
