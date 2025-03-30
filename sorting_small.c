@@ -27,21 +27,21 @@ void	sort_3(t_stack **stack)
 	a = (*stack)->val;
 	b = (*stack)->next->val;
 	c = (*stack)->next->next->val;
-	if (a > b && b < c && c > a) // Case: 3 1 2 → Swap
+	if (a > b && b < c && c > a)
 		swap_stack(stack, 'a');
-	else if (a > b && b > c) // Case: 3 2 1 → Swap & Reverse Rotate
+	else if (a > b && b > c)
 	{
 		swap_stack(stack, 'a');
 		rev_rotate(stack, 'a');
 	}
-	else if (a > b && b < c && a > c) // Case: 2 1 3 → Rotate
+	else if (a > b && b < c && a > c)
 		rotate_stack(stack, 'a');
-	else if (a < b && b > c && a < c) // Case: 1 3 2 → Swap & Rotate
+	else if (a < b && b > c && a < c)
 	{
 		swap_stack(stack, 'a');
 		rotate_stack(stack, 'a');
 	}
-	else if (a < b && b > c && a > c) // Case: 2 3 1 → Reverse Rotate
+	else if (a < b && b > c && a > c)
 		rev_rotate(stack, 'a');
 }
 

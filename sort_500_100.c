@@ -37,23 +37,23 @@ static void	push_range(t_stack **a, t_stack **b, int *tab, int *range)
 {
 	int	start;
 	int	end;
+	int	val;
 
 	start = range[0];
 	end = range[1];
 	while (*a)
 	{
-		if ((*a)->val >= tab[start] && (*a)->val <= tab[end])
+		val = (*a)->val;
+		if ((val >= tab[start] && val <= tab[end]) || val < tab[start])
 		{
 			push_stack(b, a, 'a');
+			if (val < tab[start])
+				rotate_stack(b, 'b');
 			start++;
-			end = (end + 1 < range[2]) ? end + 1 : range[2] - 1;
-		}
-		else if ((*a)->val < tab[start])
-		{
-			push_stack(b, a, 'a');
-			rotate_stack(b, 'b');
-			start++;
-			end = (end + 1 < range[2]) ? end + 1 : range[2] - 1;
+			if (end + 1 < range[2])
+				end++;
+			else
+				end = range[2] - 1;
 		}
 		else
 			rotate_stack(a, 'a');
@@ -83,14 +83,17 @@ static void	optimized_pushback(t_stack **a, t_stack **b, int size)
 
 void	sort(t_stack **a, t_stack **b, int size)
 {
-	int *tab;
-	int range[3];
+	int	*tab;
+	int	range[3];
 
 	tab = create_sorted_array(*a, size);
 	if (!tab)
 		return ;
 	range[0] = 0;
-	range[1] = (size > 100) ? size / 11 : size / 5;
+	if (size > 100)
+		range[1] = size / 11;
+	else
+		range[1] = size / 5;
 	range[2] = size;
 	push_range(a, b, tab, range);
 	optimized_pushback(a, b, size);
