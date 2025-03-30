@@ -40,7 +40,8 @@ void	swap_stack(t_stack **stack, char name)
 
 void	push_stack(t_stack **dest, t_stack **src, char name)
 {
-	t_stack	*tmp;
+	t_stack		*tmp;
+	const char	*str;
 
 	if (!src || !*src)
 		return ;
@@ -49,7 +50,11 @@ void	push_stack(t_stack **dest, t_stack **src, char name)
 	tmp->next = *dest;
 	*dest = tmp;
 	print_opera("p");
-	write(1, (name == 'a') ? "b\n" : "a\n", 2);
+	if (name == 'a')
+		str = "b\n";
+	else
+		str = "a\n";
+	write(1, str, 2);
 }
 
 void	rotate_stack(t_stack **stack, char name)

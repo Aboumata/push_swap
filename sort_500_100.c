@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_500_100.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboumata <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/30 17:04:50 by aboumata          #+#    #+#             */
+/*   Updated: 2025/03/30 17:04:53 by aboumata         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int	find_value_position(t_stack *stack, int value)
@@ -81,7 +93,7 @@ static void	optimized_pushback(t_stack **a, t_stack **b, int size)
 	}
 }
 
-void	sort(t_stack **a, t_stack **b, int size)
+void	sort_large(t_stack **a, t_stack **b, int size)
 {
 	int	*tab;
 	int	range[3];

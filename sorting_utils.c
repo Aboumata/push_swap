@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sorting_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aboumata <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/30 17:05:10 by aboumata          #+#    #+#             */
+/*   Updated: 2025/03/30 17:05:13 by aboumata         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	swap_int(int *a, int *b)
@@ -27,16 +39,19 @@ int	partition(int arr[], int low, int high)
 {
 	int	pivot;
 	int	i;
+	int	j;
 
 	pivot = arr[high];
 	i = low - 1;
-	for (int j = low; j <= high - 1; j++)
+	j = low;
+	while (j <= high - 1)
 	{
 		if (arr[j] < pivot)
 		{
 			i++;
 			swap_int(&arr[i], &arr[j]);
 		}
+		j++;
 	}
 	swap_int(&arr[i + 1], &arr[high]);
 	return (i + 1);
