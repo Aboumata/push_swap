@@ -24,7 +24,7 @@ static void	sort_decision(t_stack **a, t_stack **b, int size)
 	if (size <= 5)
 		sort_small(a, b, size);
 	else
-		sort(a, b, size);
+		sort_large(a, b, size);
 }
 
 static void	validate_and_add(char *arg, t_stack **a)
