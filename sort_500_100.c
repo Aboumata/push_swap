@@ -91,9 +91,9 @@ void	sort(t_stack **a, t_stack **b, int size)
 		return ;
 	range[0] = 0;
 	if (size > 100)
-		range[1] = size / 11;
+		range[1] = size / 14;
 	else
-		range[1] = size / 5;
+		range[1] = size / 6;
 	range[2] = size;
 	push_range(a, b, tab, range);
 	optimized_pushback(a, b, size);
