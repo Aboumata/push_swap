@@ -18,7 +18,7 @@ void	print_error_and_exit(void)
 	exit(1);
 }
 
-static void	validate(char *arg, t_stack **a)
+static void	validate(char *arg, t_stack **a, char **args, int needs_free)
 {
 	int	num;
 	int	valid;
@@ -28,6 +28,8 @@ static void	validate(char *arg, t_stack **a)
 	if (!valid || !is_number(arg) || !check_duplicate(*a, num))
 	{
 		free_stack(a);
+		if (needs_free)
+			free_args(args);
 		print_error_and_exit();
 	}
 	stack_add_back(a, num);
@@ -46,7 +48,7 @@ static t_stack	*parse_arguments(int argc, char **argv, int *new_argc, int *needs
 	i = 0;
 	while (args[i])
 	{
-		validate(args[i], &a);
+		validate(args[i], &a, args, *needs_free);
 		i++;
 	}
 	if (*needs_free)
@@ -58,12 +60,10 @@ static void	execute(t_stack **a, t_stack **b)
 {
 	char	*line;
 
-	line = get_next_line(0);
-	while (line)
+	while ((line = get_next_line(0)))
 	{
 		stdin_operations(line, a, b);
 		free(line);
-		line = get_next_line(0);
 	}
 }
 
@@ -76,7 +76,6 @@ int	main(int argc, char **argv)
 
 	if (argc < 2)
 		return (0);
-
 	a = parse_arguments(argc, argv, &new_argc, &needs_free);
 	b = NULL;
 
@@ -89,6 +88,4 @@ int	main(int argc, char **argv)
 
 	free_stack(&a);
 	free_stack(&b);
-	return (0);
 }
-

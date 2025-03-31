@@ -16,20 +16,33 @@ int	is_number(const char *str)
 {
     int	i;
 
-    if (!str || *str == '\0')
+    if (!str)
         return (0);
+
+    while (*str == ' ')
+        str++;
+
+    if (*str == '\0')
+        return (0);
+
     i = 0;
     if (str[i] == '-' || str[i] == '+')
         i++;
-    if (!str[i])
+
+    if (str[i] == '\0' || str[i] == ' ')
         return (0);
-    while (str[i])
+
+    while (str[i] && str[i] != ' ')
     {
         if (str[i] < '0' || str[i] > '9')
             return (0);
         i++;
     }
-    return (1);
+
+    while (str[i] == ' ')
+        i++;
+
+    return (str[i] == '\0');
 }
 
 int	ps_atoi(const char *str, int *valid)
@@ -85,8 +98,6 @@ char	**split_args(int argc, char **argv, int *new_argc, int *needs_free)
     if (argc == 2)
     {
         args = ft_split(argv[1], ' ');
-        if (!args)
-            return (NULL);
         *new_argc = count_strings(args);
         *needs_free = 1;
     }
