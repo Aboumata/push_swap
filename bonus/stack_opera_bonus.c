@@ -29,7 +29,6 @@ void	swap_stack(t_stack **stack)
 void	push_stack(t_stack **dest, t_stack **src)
 {
     t_stack		*tmp;
-    const char	*str;
 
     if (!src || !*src)
         return ;

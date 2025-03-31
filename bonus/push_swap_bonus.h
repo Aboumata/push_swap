@@ -58,5 +58,6 @@ void				sort_large(t_stack **a, t_stack **b, int size);
 int					find_max_value(t_stack *stack);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 void				stdin_operations(char *line, t_stack **a, t_stack **b);
+void				print_error_and_exit(void);
 
 #endif

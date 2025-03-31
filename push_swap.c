@@ -27,7 +27,7 @@ static void	sort_decision(t_stack **a, t_stack **b, int size)
 		sort_large(a, b, size);
 }
 
-static void	validate_and_add(char *arg, t_stack **a)
+static void	validate(char *arg, t_stack **a)
 {
 	int	num;
 	int	valid;
@@ -56,7 +56,7 @@ static t_stack	*parse_arguments(int argc, char **argv, int *new_argc)
 		print_error_and_exit();
 	i = 0;
 	while (args[i])
-		validate_and_add(args[i++], &a);
+		validate(args[i++], &a);
 	if (is_split)
 	{
 		free_args(args);
