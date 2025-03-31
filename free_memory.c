@@ -38,6 +38,7 @@ void	free_args(char **args)
 		free(args[i]);
 		i++;
 	}
+	free(args);
 }
 
 void	free_error(t_stack **stack, char **args, int splitted)
