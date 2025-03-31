@@ -10,22 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../push_swap.h"
-#include "get_next_line.h"
+#include "push_swap_bonus.h"
 
 void	print_error_and_exit(void)
 {
-	write(1, "error", 5);
-	write(1, "\n", 1);
+	write(2, "Error\n", 6);
 	exit(1);
-}
-
-static void	sort_decision(t_stack **a, t_stack **b, int size)
-{
-	if (size <= 5)
-		sort_small(a, b, size);
-	else
-		sort_large(a, b, size);
 }
 
 static void	validate_and_add(char *arg, t_stack **a)
@@ -43,27 +33,38 @@ static void	validate_and_add(char *arg, t_stack **a)
 	stack_add_back(a, num);
 }
 
-static t_stack	*parse_arguments(int argc, char **argv, int *new_argc)
+static t_stack	*parse_arguments(int argc, char **argv, int *new_argc, int *needs_free)
 {
 	t_stack	*a;
 	char	**args;
 	int		i;
-	int		is_split;
 
 	a = NULL;
-	args = split_args(argc, argv, new_argc);
-	is_split = (argc == 2);
+	args = split_args(argc, argv, new_argc, needs_free);
 	if (!args)
 		print_error_and_exit();
 	i = 0;
 	while (args[i])
-		validate_and_add(args[i++], &a);
-	if (is_split)
 	{
-		free_args(args);
-		free(args);
+		validate_and_add(args[i], &a);
+		i++;
 	}
+	if (*needs_free)
+		free_args(args);
 	return (a);
+}
+
+static void	execute(t_stack **a, t_stack **b)
+{
+	char	*line;
+
+	line = get_next_line(0);
+	while (line)
+	{
+		stdin_operations(line, a, b);
+		free(line);
+		line = get_next_line(0);
+	}
 }
 
 int	main(int argc, char **argv)
@@ -71,13 +72,23 @@ int	main(int argc, char **argv)
 	t_stack	*a;
 	t_stack	*b;
 	int		new_argc;
+	int		needs_free;
 
 	if (argc < 2)
 		return (0);
-	a = parse_arguments(argc, argv, &new_argc);
+
+	a = parse_arguments(argc, argv, &new_argc, &needs_free);
 	b = NULL;
-	if (!is_sorted(a))
-		sort_decision(&a, &b, new_argc);
+
+	execute(&a, &b);
+
+	if (is_sorted(a) && !b)
+		write(1, "OK\n", 3);
+	else
+		write(1, "KO\n", 3);
+
 	free_stack(&a);
 	free_stack(&b);
+	return (0);
 }
+
