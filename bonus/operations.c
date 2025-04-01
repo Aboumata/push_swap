@@ -12,48 +12,37 @@
 
 #include "push_swap_bonus.h"
 
+void	free_all(char *line, t_stack **a, t_stack **b)
+{
+	free(line);
+	free_stack(a);
+	free_stack(b);
+}
+
 void	stdin_operations(char *line, t_stack **a, t_stack **b)
 {
-    if (line[0] == '\n' || line[0] == '\0') {
-        free(line);
-        return;
-    }
-    if (!ft_strncmp(line, "sa\n", 3))
-        swap_stack(a);
-    else if (!ft_strncmp(line, "sb\n", 3))
-        swap_stack(b);
-    else if (!ft_strncmp(line, "ss\n", 3))
-    {
-        swap_stack(a);
-        swap_stack(b);
-    }
-    else if (!ft_strncmp(line, "pa\n", 3))
-        push_stack(a, b);
-    else if (!ft_strncmp(line, "pb\n", 3))
-        push_stack(b, a);
-    else if (!ft_strncmp(line, "ra\n", 3))
-        rotate_stack(a);
-    else if (!ft_strncmp(line, "rb\n", 3))
-        rotate_stack(b);
-    else if (!ft_strncmp(line, "rr\n", 3))
-    {
-        rotate_stack(a);
-        rotate_stack(b);
-    }
-    else if (!ft_strncmp(line, "rra\n", 4))
-        rev_rotate(a);
-    else if (!ft_strncmp(line, "rrb\n", 4))
-        rev_rotate(b);
-    else if (!ft_strncmp(line, "rrr\n", 4))
-    {
-        rev_rotate(a);
-        rev_rotate(b);
-    }
-    else
-    {
-        free(line);
-        free_stack(a);
-        free_stack(b);
-        print_error_and_exit();
-    }
+	if (!line || line[0] == '\n' || line[0] == '\0')
+		return (free(line));
+	if (!ft_strncmp(line, "sa\n", 3))
+		swap_stack(a);
+	else if (!ft_strncmp(line, "sb\n", 3))
+		swap_stack(b);
+	else if (!ft_strncmp(line, "pa\n", 3))
+		push_stack(a, b);
+	else if (!ft_strncmp(line, "pb\n", 3))
+		push_stack(b, a);
+	else if (!ft_strncmp(line, "ra\n", 3))
+		rotate_stack(a);
+	else if (!ft_strncmp(line, "rb\n", 3))
+		rotate_stack(b);
+	else if (!ft_strncmp(line, "rra\n", 4))
+		rev_rotate(a);
+	else if (!ft_strncmp(line, "rrb\n", 4))
+		rev_rotate(b);
+	else
+	{
+		free_all(line, a, b);
+		print_error_and_exit();
+	}
+	free(line);
 }

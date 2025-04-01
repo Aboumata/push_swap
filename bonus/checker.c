@@ -35,7 +35,8 @@ static void	validate(char *arg, t_stack **a, char **args, int needs_free)
 	stack_add_back(a, num);
 }
 
-static t_stack	*parse_arguments(int argc, char **argv, int *new_argc, int *needs_free)
+static t_stack	*parse_arguments(int argc, char **argv, int *new_argc,
+		int *needs_free)
 {
 	t_stack	*a;
 	char	**args;
@@ -60,10 +61,12 @@ static void	execute(t_stack **a, t_stack **b)
 {
 	char	*line;
 
-	while ((line = get_next_line(0)))
+	line = get_next_line(0);
+	while (line)
 	{
 		stdin_operations(line, a, b);
 		free(line);
+		line = get_next_line(0);
 	}
 }
 
@@ -78,14 +81,11 @@ int	main(int argc, char **argv)
 		return (0);
 	a = parse_arguments(argc, argv, &new_argc, &needs_free);
 	b = NULL;
-
 	execute(&a, &b);
-
 	if (is_sorted(a) && !b)
 		write(1, "OK\n", 3);
 	else
 		write(1, "KO\n", 3);
-
 	free_stack(&a);
 	free_stack(&b);
 }
