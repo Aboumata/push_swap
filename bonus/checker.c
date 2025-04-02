@@ -65,7 +65,6 @@ static void	execute(t_stack **a, t_stack **b)
 	while (line)
 	{
 		stdin_operations(line, a, b);
-		free(line);
 		line = get_next_line(0);
 	}
 }
