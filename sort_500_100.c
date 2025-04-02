@@ -25,7 +25,7 @@ int	find_value_position(t_stack *stack, int value)
 	return (pos);
 }
 
-static int	*create_sorted_array(t_stack *stack, int size)
+static int	*sorted_array(t_stack *stack, int size)
 {
 	int		*arr;
 	t_stack	*current;
@@ -98,7 +98,7 @@ void	sort_large(t_stack **a, t_stack **b, int size)
 	int	*tab;
 	int	range[3];
 
-	tab = create_sorted_array(*a, size);
+	tab = sorted_array(*a, size);
 	if (!tab)
 		return ;
 	range[0] = 0;
