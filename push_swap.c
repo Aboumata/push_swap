@@ -51,11 +51,8 @@ static t_stack	*parse_arguments(int argc, char **argv, int *new_argc)
 	t_stack	*a;
 	char	**args;
 	int		i;
-	int		is_split;
-
 	a = NULL;
 	args = split_args(argc, argv, new_argc);
-	is_split = (argc == 2);
 	if (!args)
 		print_error_and_exit(NULL, 0);
 	i = 0;
