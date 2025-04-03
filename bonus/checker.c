@@ -18,7 +18,7 @@ void	print_error_and_exit(void)
 	exit(1);
 }
 
-static void	validate(char *arg, t_stack **a, char **args, int needs_free)
+static void	validate(char *arg, t_stack **a, char **args)
 {
 	int	num;
 	int	valid;
@@ -49,7 +49,7 @@ static t_stack	*parse_arguments(int argc, char **argv, int *new_argc,
 	i = 0;
 	while (args[i])
 	{
-		validate(args[i], &a, args, *needs_free);
+		validate(args[i], &a, args);
 		i++;
 	}
 	if (*needs_free)

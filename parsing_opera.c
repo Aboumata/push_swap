@@ -16,23 +16,17 @@ int	is_number(const char *str)
 {
 	int	i;
 
-	if (!str)
+	if (!str || *str == '\0')
 		return (0);
 	while (*str == ' ')
 		str++;
-	if (*str == '\0')
+	if (*str == '-' || *str == '+')
+		str++;
+	if (*str < '0' || *str > '9')
 		return (0);
 	i = 0;
-	if (str[i] == '-' || str[i] == '+')
+	while (str[i] >= '0' && str[i] <= '9')
 		i++;
-	if (str[i] == '\0' || str[i] == ' ')
-		return (0);
-	while (str[i] && str[i] != ' ')
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-		i++;
-	}
 	while (str[i] == ' ')
 		i++;
 	return (str[i] == '\0');
@@ -86,19 +80,34 @@ int	count_strings(char **strings)
 	return (count);
 }
 
-char	**split_args(int argc, char **argv, int *new_argc)
-{
-	char	**args;
+char **split_args(int argc, char **argv, int *new_argc) {
+	char **args = NULL;
+	char **temp;
+	int i = 1;
+	int j;
 
-	if (argc == 2)
-	{
+	if (argc == 2) {
 		args = ft_split(argv[1], ' ');
-		*new_argc = count_strings(args);
+	} else {
+		while (i < argc) {
+			temp = ft_split(argv[i], ' ');
+			if (!temp) {
+				free_args(args);
+				return NULL;
+			}
+			j = 0;
+			while (temp[j]) {
+				args = add_string_to_array(args, temp[j]);
+				if (!args) {
+					free_args(temp);
+					return NULL;
+				}
+				j++;
+			}
+			free_args(temp);
+			i++;
+		}
 	}
-	else
-	{
-		args = argv + 1;
-		*new_argc = argc - 1;
-	}
-	return (args);
+	*new_argc = count_strings(args);
+	return args;
 }

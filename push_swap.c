@@ -29,7 +29,7 @@ static void	sort_decision(t_stack **a, t_stack **b, int size)
 		sort_large(a, b, size);
 }
 
-static void	validate(char *arg, t_stack **a, char **args, int is_split)
+static void	validate(char *arg, t_stack **a, char **args)
 {
 	int	num;
 	int	valid;
@@ -39,10 +39,10 @@ static void	validate(char *arg, t_stack **a, char **args, int is_split)
 	if (!valid || !is_number(arg) || !check_duplicate(*a, num))
 	{
 		free_stack(a);
-		if (is_split)
-			free_args(args);
+		free_args(args);
 		print_error_and_exit(NULL, 0);
 	}
+
 	stack_add_back(a, num);
 }
 
@@ -60,9 +60,11 @@ static t_stack	*parse_arguments(int argc, char **argv, int *new_argc)
 		print_error_and_exit(NULL, 0);
 	i = 0;
 	while (args[i])
-		validate(args[i++], &a, args, is_split);
-	if (is_split)
-		free_args(args);
+	{
+		validate(args[i], &a, args);
+		i++;
+	}
+	free_args(args);
 	return (a);
 }
 

@@ -55,5 +55,7 @@ void				sort_small(t_stack **a, t_stack **b, int size);
 void				quicksort(int *arr, int low, int high);
 void				sort_large(t_stack **a, t_stack **b, int size);
 int					find_max_value(t_stack *stack);
+char				*ft_strdup(const char *src);
+char				**add_string_to_array(char **array, char *str);
 
 #endif

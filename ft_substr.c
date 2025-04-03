@@ -68,3 +68,54 @@ char	*ft_substr(const char *src, size_t start, size_t len)
 	ft_strlcpy(result, src + start, len + 1);
 	return (result);
 }
+
+char	*ft_strdup(const char *src)
+{
+	int		i;
+	char	*ptr;
+	size_t	len_src;
+
+	len_src = ft_strlen(src);
+	ptr = (char *)malloc(len_src + 1);
+	if (ptr == NULL)
+	{
+		return (NULL);
+	}
+	i = 0;
+	while (src[i] != '\0')
+	{
+		ptr[i] = src[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
+
+char	**add_string_to_array(char **array, char *str)
+{
+	int		count;
+	char	**new_array;
+	int		i;
+
+	count = 0;
+	while (array && array[count])
+		count++;
+	new_array = (char **)malloc(sizeof(char *) * (count + 2));
+	if (!new_array)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		new_array[i] = array[i];
+		i++;
+	}
+	new_array[i] = ft_strdup(str);
+	if (!new_array[i])
+	{
+		free(new_array);
+		return (NULL);
+	}
+	new_array[i + 1] = NULL;
+	free(array);
+	return (new_array);
+}
