@@ -42,7 +42,6 @@ static void	validate(char *arg, t_stack **a, char **args)
 		free_args(args);
 		print_error_and_exit(NULL, 0);
 	}
-
 	stack_add_back(a, num);
 }
 
@@ -51,6 +50,7 @@ static t_stack	*parse_arguments(int argc, char **argv, int *new_argc)
 	t_stack	*a;
 	char	**args;
 	int		i;
+
 	a = NULL;
 	args = split_args(argc, argv, new_argc);
 	if (!args)

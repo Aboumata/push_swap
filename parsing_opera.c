@@ -80,28 +80,30 @@ int	count_strings(char **strings)
 	return (count);
 }
 
-char **split_args(int argc, char **argv, int *new_argc) {
-	char **args = NULL;
+char	**split_args(int argc, char **argv, int *new_argc)
+{
+	char **args;
 	char **temp;
-	int i = 1;
+	int	i;
 	int j;
 
-	if (argc == 2) {
+	args = NULL;
+	if (argc == 2)
 		args = ft_split(argv[1], ' ');
-	} else {
-		while (i < argc) {
+	else
+	{
+		i = 1;
+		while (i < argc)
+		{
 			temp = ft_split(argv[i], ' ');
-			if (!temp) {
-				free_args(args);
-				return NULL;
-			}
+			if (!temp)
+				return (free_args(args), NULL);
 			j = 0;
-			while (temp[j]) {
+			while (temp[j])
+			{
 				args = add_string_to_array(args, temp[j]);
-				if (!args) {
-					free_args(temp);
-					return NULL;
-				}
+				if (!args)
+					return (free_args(temp), NULL);
 				j++;
 			}
 			free_args(temp);
@@ -109,5 +111,5 @@ char **split_args(int argc, char **argv, int *new_argc) {
 		}
 	}
 	*new_argc = count_strings(args);
-	return args;
+	return (args);
 }
