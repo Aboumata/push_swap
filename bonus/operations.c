@@ -42,7 +42,7 @@ void	stdin_operations(char *line, t_stack **a, t_stack **b)
 	else
 	{
 		free_all(line, a, b);
-		print_error_and_exit();
+		print_error_and_exit(NULL, 0);
 	}
 	free(line);
 }

@@ -12,9 +12,11 @@
 
 #include "push_swap_bonus.h"
 
-void	print_error_and_exit(void)
+void	print_error_and_exit(char **args, int is_value)
 {
-	write(2, "Error\n", 6);
+	if (is_value && args)
+		free_args(args);
+	write(2, "error\n", 6);
 	exit(1);
 }
 
@@ -28,32 +30,29 @@ static void	validate(char *arg, t_stack **a, char **args)
 	if (!valid || !is_number(arg) || !check_duplicate(*a, num))
 	{
 		free_stack(a);
-		if (needs_free)
-			free_args(args);
-		print_error_and_exit();
+		free_args(args);
+		print_error_and_exit(NULL, 0);
 	}
 	stack_add_back(a, num);
 }
 
-static t_stack	*parse_arguments(int argc, char **argv, int *new_argc,
-		int *needs_free)
+static t_stack	*parse_arguments(int argc, char **argv, int *new_argc)
 {
 	t_stack	*a;
 	char	**args;
 	int		i;
 
 	a = NULL;
-	args = split_args(argc, argv, new_argc, needs_free);
+	args = split_args(argc, argv, new_argc);
 	if (!args)
-		print_error_and_exit();
+		print_error_and_exit(NULL, 0);
 	i = 0;
 	while (args[i])
 	{
 		validate(args[i], &a, args);
 		i++;
 	}
-	if (*needs_free)
-		free_args(args);
+	free_args(args);
 	return (a);
 }
 
@@ -74,11 +73,10 @@ int	main(int argc, char **argv)
 	t_stack	*a;
 	t_stack	*b;
 	int		new_argc;
-	int		needs_free;
 
 	if (argc < 2)
 		return (0);
-	a = parse_arguments(argc, argv, &new_argc, &needs_free);
+	a = parse_arguments(argc, argv, &new_argc);
 	b = NULL;
 	execute(&a, &b);
 	if (is_sorted(a) && !b)

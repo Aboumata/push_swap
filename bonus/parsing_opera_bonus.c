@@ -86,21 +86,31 @@ int	count_strings(char **strings)
 	return (count);
 }
 
-char	**split_args(int argc, char **argv, int *new_argc, int *needs_free)
+char	**split_args(int argc, char **argv, int *new_argc)
 {
 	char	**args;
+	char	**temp;
+	int		i;
+	int		j;
 
+	args = NULL;
+	i = 0;
 	if (argc == 2)
-	{
 		args = ft_split(argv[1], ' ');
-		*new_argc = count_strings(args);
-		*needs_free = 1;
-	}
-	else
+	while (argc > 2 && ++i < argc)
 	{
-		args = argv + 1;
-		*new_argc = argc - 1;
-		*needs_free = 0;
+		temp = ft_split(argv[i], ' ');
+		if (!temp)
+			return (free_args(args), NULL);
+		j = -1;
+		while (temp[++j])
+		{
+			args = add_string_to_array(args, temp[j]);
+			if (!args)
+				return (free_args(temp), NULL);
+		}
+		free_args(temp);
 	}
+	*new_argc = count_strings(args);
 	return (args);
 }
