@@ -16,7 +16,7 @@ void	print_error_and_exit(char **args, int is_split)
 {
 	if (is_split && args)
 		free_args(args);
-	write(1, "error\n", 6);
+	write(2, "Error\n", 6);
 	exit(1);
 }
 
