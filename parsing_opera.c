@@ -105,6 +105,8 @@ char	**split_args(int argc, char **argv, int *new_argc)
 		}
 		free_args(temp);
 	}
+	if (!args || !args[0])
+		print_error_and_exit(NULL, 0);
 	*new_argc = count_strings(args);
 	return (args);
 }

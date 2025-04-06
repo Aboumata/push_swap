@@ -1,4 +1,4 @@
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = free_memory.c parsing_opera.c push_swap.c sorting_small.c \

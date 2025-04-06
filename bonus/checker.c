@@ -16,7 +16,7 @@ void	print_error_and_exit(char **args, int is_value)
 {
 	if (is_value && args)
 		free_args(args);
-	write(2, "error\n", 6);
+	write(2, "Error\n", 6);
 	exit(1);
 }
 
