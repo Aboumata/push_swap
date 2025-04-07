@@ -89,9 +89,7 @@ char	**split_args(int argc, char **argv, int *new_argc)
 
 	args = NULL;
 	i = 0;
-	if (argc == 2)
-		args = ft_split(argv[1], ' ');
-	while (argc > 2 && ++i < argc)
+	while (++i < argc)
 	{
 		temp = ft_split(argv[i], ' ');
 		if (!temp)

@@ -95,9 +95,7 @@ char	**split_args(int argc, char **argv, int *new_argc)
 
 	args = NULL;
 	i = 0;
-	if (argc == 2)
-		args = ft_split(argv[1], ' ');
-	while (argc > 2 && ++i < argc)
+	while (++i < argc)
 	{
 		temp = ft_split(argv[i], ' ');
 		if (!temp)
@@ -111,8 +109,8 @@ char	**split_args(int argc, char **argv, int *new_argc)
 		}
 		free_args(temp);
 	}
-        if  (!args || !args[0])
-          print_error_and_exit(NULL, 0);
+	if (!args || !args[0])
+		print_error_and_exit(NULL, 0);
 	*new_argc = count_strings(args);
 	return (args);
 }
