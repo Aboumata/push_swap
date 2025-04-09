@@ -12,6 +12,15 @@
 
 #include "push_swap_bonus.h"
 
+void	free_and_exit(char **a1, char **a2)
+{
+	if (a1)
+		free_args(a1);
+	if (a2)
+		free_args(a2);
+	print_error_and_exit(NULL, 0);
+}
+
 void	free_stack(t_stack **stack)
 {
 	t_stack	*tmp;

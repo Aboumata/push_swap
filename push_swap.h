@@ -58,5 +58,6 @@ int					find_max_value(t_stack *stack);
 char				*ft_strdup(const char *src);
 char				**add_string_to_array(char **array, char *str);
 void				print_error_and_exit(char **args, int is_split);
+void				free_and_exit(char **a1, char **a2);
 
 #endif
