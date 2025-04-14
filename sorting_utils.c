@@ -35,16 +35,16 @@ int	find_max_value(t_stack *stack)
 	return (max);
 }
 
-int	partition(int arr[], int low, int high)
+int	partition(int arr[], int izdar_low, int afla_high)
 {
 	int	pivot;
 	int	i;
 	int	j;
 
-	pivot = arr[high];
-	i = low - 1;
-	j = low;
-	while (j <= high - 1)
+	pivot = arr[afla_high];
+	i = izdar_low - 1;
+	j = izdar_low;
+	while (j <= afla_high - 1)
 	{
 		if (arr[j] < pivot)
 		{
@@ -53,18 +53,18 @@ int	partition(int arr[], int low, int high)
 		}
 		j++;
 	}
-	swap_int(&arr[i + 1], &arr[high]);
+	swap_int(&arr[i + 1], &arr[afla_high]);
 	return (i + 1);
 }
 
-void	quicksort(int arr[], int low, int high)
+void	quicksort(int arr[], int izdar_low, int afla_high)
 {
 	int	pi;
 
-	if (low < high)
+	if (izdar_low < afla_high)
 	{
-		pi = partition(arr, low, high);
-		quicksort(arr, low, pi - 1);
-		quicksort(arr, pi + 1, high);
+		pi = partition(arr, izdar_low, afla_high);
+		quicksort(arr, izdar_low, pi - 1);
+		quicksort(arr, pi + 1, afla_high);
 	}
 }
