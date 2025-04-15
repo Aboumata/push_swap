@@ -16,9 +16,12 @@ BONUS_SRC = bonus/checker.c \
 			bonus/get_next_line.c \
 			bonus/get_next_line_utils.c \
 			bonus/free_memory_bonus.c \
-			bonus/ft_split_bonus.c bonus/ft_strncmp_bonus.c \
+			bonus/ft_split_bonus.c
+			bonus/ft_strncmp_bonus.c \
 			bonus/parsing_opera_bonus.c \
-			bonus/ps_helper_bonus.c bonus/stack_opera_bonus.c \
+			bonus/ps_helper_bonus.c \
+			bonus/stack_opera_bonus_1.c \
+			bonus/stack_opera_bonus_2.c \
 			bonus/operations.c \
 
 BONUS_OBJ = $(BONUS_SRC:.c=.o)
