@@ -63,5 +63,8 @@ void				print_error_and_exit(char **args, int is_value);
 char				*ft_strdup(const char *src);
 char				**add_string_to_array(char **array, char *str);
 void				free_and_exit(char **a1, char **a2);
+void				ss(t_stack **a, t_stack **b);
+void				rr(t_stack **a, t_stack **b);
+void				rrr(t_stack **a, t_stack **b);
 
 #endif
